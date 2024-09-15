@@ -11,6 +11,7 @@ import LoadingSpinner from "./components/LoadingSpinner";
 
 import AdminDashboard from "./components/AdminDashboard";
 import UserDashboard from "./components/UserDashboard";
+import UserProfile from "./components/UserProfile";
 
 import { Toaster } from "react-hot-toast";
 import { useAuthStore } from "./store/authStore";
@@ -116,6 +117,9 @@ function App() {
                         </RedirectAuthenticatedUser>
                     }
                 />
+
+				<Route path='/admin/user/:id' element={<UserProfile />} />
+
                 {/* catch all routes */}
                 <Route path='*' element={<Navigate to='/' replace />} />
             </Routes>

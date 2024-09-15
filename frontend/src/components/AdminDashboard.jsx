@@ -1,8 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import userList from '../userData.json';  // Import user list
+import { useAuthStore } from '../store/authStore'; // Adjust the path as needed
 
 const AdminDashboard = () => {
+  // Using Zustand functions and state directly
+  const { fetchAllResumes, resumes = [], isLoading, error } = useAuthStore(state => ({
+    fetchAllResumes: state.fetchAllResumes,
+    resumes: state.resumes,
+    isLoading: state.isLoading,
+    error: state.error
+  }));
+
+  useEffect(() => {
+    // Fetch resumes when the component mounts
+    const getResumes = async () => {
+      try {
+        await fetchAllResumes();
+      } catch (error) {
+        console.error('Error fetching resumes:', error);
+      }
+    };
+
+    getResumes();
+  }, [fetchAllResumes]);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
   return (
     <div>
       <h1>Admin Dashboard</h1>
@@ -16,18 +40,24 @@ const AdminDashboard = () => {
           </tr>
         </thead>
         <tbody>
-          {userList.map((user) => (
-            <tr key={user.id}>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.resumeStatus}</td>
-              <td>
-                <Link to={`/admin/user/${user.id}`}>
-                  <button>View Profile</button>
-                </Link>
-              </td>
+          {resumes.length > 0 ? (
+            resumes.map((resume) => (
+              <tr key={resume.id}>
+                <td>{resume.name}</td>
+                <td>{resume.email}</td>
+                <td>{resume.status}</td>
+                <td>
+                  <Link to={`/admin/user/${resume.id}`}>
+                    <button>View Profile</button>
+                  </Link>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="4">No resumes available</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>

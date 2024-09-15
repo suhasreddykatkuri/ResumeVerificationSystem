@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Form, Alert } from 'react-bootstrap';
 import userList from '../userData.json'; // Import JSON data
+import { useAuthStore } from '../store/authStore'; // Adjust the path to your useAuthStore
 
 const UserDashboard = () => {
   const userId = 1; // Replace with dynamic user ID
@@ -11,6 +12,10 @@ const UserDashboard = () => {
   const [successMessage, setSuccessMessage] = useState(null); // Success message
   const [showResume, setShowResume] = useState(false); // State to control resume visibility
   const [users, setUsers] = useState(userList); // Simulated user data
+
+  const { logout } = useAuthStore((state) => ({
+    logout: state.logout,
+  }));
 
   useEffect(() => {
     // Fetch user data from the JSON file (simulated)
@@ -64,6 +69,16 @@ const UserDashboard = () => {
 
   const handleToggleResume = () => {
     setShowResume((prev) => !prev); // Toggle resume visibility
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      // Redirect user to login page or handle logout state
+      window.location.href = '/login'; // Replace with your desired redirect path
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (
@@ -120,6 +135,13 @@ const UserDashboard = () => {
       <div style={{ marginTop: '20px' }}>
         <h4>Resume Status</h4>
         <p>Status: {resumeStatus}</p>
+      </div>
+
+      {/* Logout Button */}
+      <div style={{ marginTop: '20px' }}>
+        <Button variant="secondary" onClick={handleLogout}>
+          Logout
+        </Button>
       </div>
     </div>
   );
