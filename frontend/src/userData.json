@@ -1,0 +1,23 @@
+[
+    {
+        "id": 1,
+        "name": "Adesh Yearanty",
+        "email": "adesh.yearanty@gmail.com",
+        "resumeStatus": "Valid",
+        "resumeLink": "https://drive.google.com/file/d/1YGAgR62QCO33hyQLUi7T2Q-jfbh6wntL/view?usp=drive_link"
+      },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "email": "jane@example.com",
+      "resumeStatus": "Invalid",
+      "resumeLink": "/resumes/jane_smith_resume.pdf"
+    },
+    {
+      "id": 3,
+      "name": "Mark Johnson",
+      "email": "mark@example.com",
+      "resumeStatus": "Valid",
+      "resumeLink": "/resumes/mark_johnson_resume.pdf"
+    }
+  ]
