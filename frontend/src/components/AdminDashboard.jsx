@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuthStore } from '../store/authStore'; // Adjust the path as needed
+import '../Static/adminDashboard.css'; // Importing the custom CSS
 
 const AdminDashboard = () => {
   // Using Zustand functions and state directly
-  const { fetchAllResumes, resumes = [], isLoading, error } = useAuthStore(state => ({
+  const { fetchAllResumes, resumes = [], isLoading, error, logout } = useAuthStore(state => ({
     fetchAllResumes: state.fetchAllResumes,
     resumes: state.resumes,
     isLoading: state.isLoading,
@@ -28,9 +29,9 @@ const AdminDashboard = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div>
-      <h1>Admin Dashboard</h1>
-      <table border="1" style={{ width: '100%', textAlign: 'left' }}>
+    <div className="admin-dashboard">
+      <h1 className="dashboard-heading">Admin Dashboard</h1>
+      <table className="resume-table">
         <thead>
           <tr>
             <th>Name</th>
@@ -45,21 +46,26 @@ const AdminDashboard = () => {
               <tr key={resume.id}>
                 <td>{resume.name}</td>
                 <td>{resume.email}</td>
-                <td>{resume.status}</td>
+                <td>
+                  <span className={`status-badge ${resume.status}`}>
+                    {resume.status}
+                  </span>
+                </td>
                 <td>
                   <Link to={`/admin/user/${resume.id}`}>
-                    <button>View Profile</button>
+                    <button className="view-profile-btn">View Profile</button>
                   </Link>
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="4">No resumes available</td>
+              <td colSpan="4" className="no-resumes">No resumes available</td>
             </tr>
           )}
         </tbody>
       </table>
+      
     </div>
   );
 };

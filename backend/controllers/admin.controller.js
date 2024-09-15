@@ -1,5 +1,6 @@
 import {Resume} from "../models/resume.model.js";
 import { User } from "../models/user.model.js"; // Assuming we need user info as well for cross-checks
+import {Feedback} from "../models/feedback.model.js"
 
 // Admin controller to get all resumes
 export const getAllResumes = async (req, res) => {
@@ -61,16 +62,12 @@ export const getResumeById = async (req, res) => {
     }
 };
 
-
 // Admin controller to update the status of a resume (approve/reject)
 export const updateResumeStatus = async (req, res) => {
     const { resumeId } = req.params;
     const { status, feedback } = req.body; // Assuming admin will provide status and feedback
 
     try {
-
-        
-
         const resume = await Resume.findById(resumeId);
 
         if (!resume) {
@@ -85,14 +82,8 @@ export const updateResumeStatus = async (req, res) => {
             resume.feedback = feedback; // Admin can provide optional feedback
         }
 
-
-
         await resume.save();
-
         
-
-        
-
         // Notify user about the status change (if required)
         const user = await User.findById(resume.userId);
         if (user) {
@@ -103,5 +94,43 @@ export const updateResumeStatus = async (req, res) => {
         res.status(200).json({ message: `Resume ${status} successfully`, resume });
     } catch (error) {
         res.status(500).json({ message: "Error updating resume status", error: error.message });
+    }
+};
+
+
+// Admin controller to submit feedback for a resume
+export const submitFeedback = async (req, res) => {
+    const { resumeId } = req.params;
+    const { feedback } = req.body; // Feedback text from admin
+    const adminId = req.userId; // Assuming req.user contains the authenticated admin's ID
+
+    try {
+        const resume = await Resume.findById(resumeId);
+        if (!resume) {
+            return res.status(404).json({ message: "Resume not found" });
+        }
+        
+        // console.log("hhhhhhhhhhhh : ", resume);
+        // console.log("resume id : ", resume._id);
+        // console.log("resume id : ", adminId);
+        // console.log("resume id : ", feedback);
+        
+        // Create and save the feedback
+        const newFeedback = new Feedback({
+            resumeId: resume._id,
+            adminId: adminId,
+            feedback: feedback
+        });
+        console.log("new feedback : ", newFeedback);
+        
+        await newFeedback.save();
+
+        // Update resume's feedback field (if needed)
+        resume.feedback = feedback;
+        await resume.save();
+
+        res.status(200).json({ message: "Feedback submitted successfully", feedback: newFeedback });
+    } catch (error) {
+        res.status(500).json({ message: "Error submitting feedback", error: error.message });
     }
 };

@@ -2,7 +2,8 @@ import express from "express";
 import {
     getAllResumes,
     getResumeById,
-    updateResumeStatus
+    updateResumeStatus,
+    submitFeedback
 } from "../controllers/admin.controller.js";
 import { verifyToken } from "../middleware/verifyToken.js";
 
@@ -16,5 +17,8 @@ router.get("/resume/:resumeId", verifyToken, getResumeById);
 
 // Admin updates the status of a resume (approve/reject)
 router.patch("/resume/:resumeId/status", verifyToken, updateResumeStatus);
+
+// Admin submits feedback for a resume
+router.post("/resume/:resumeId/feedback", verifyToken, submitFeedback);
 
 export default router;

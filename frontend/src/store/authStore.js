@@ -143,15 +143,15 @@ export const useAuthStore = create((set) => ({
   updateResumeStatus: async (resumeId, status, feedback) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.patch(`${API_URL}/admin/resume/${resumeId}/status`, { status, feedback });
-      set({ resume: response.data.resume, isLoading: false });
-      return response.data;
+        const response = await axios.patch(`${API_URL}/admin/resume/${resumeId}/status`, { status, feedback });
+        // Update local state to reflect the new status
+        set({ resume: response.data.resume, isLoading: false });
+        return response.data;
     } catch (error) {
-      set({ error: error.response?.data?.message || "Error updating resume status", isLoading: false });
-      throw error;
+        set({ error: error.response?.data?.message || "Error updating resume status", isLoading: false });
+        throw error;
     }
-  },
-
+},
 
   fetchUserProfile: async (userId) => {
     set({ isLoading: true, error: null });
@@ -169,18 +169,17 @@ export const useAuthStore = create((set) => ({
     }
   },
 
-  updateResumeStatus: async (resumeId, status, feedback) => {
+  submitFeedback: async (resumeId, feedback) => {
     set({ isLoading: true, error: null });
     try {
-        const response = await axios.patch(`${API_URL}/admin/resume/${resumeId}/status`, { status, feedback });
-        // Update local state to reflect the new status
-        set({ resume: response.data.resume, isLoading: false });
-        return response.data;
+      const response = await axios.post(`${API_URL}/admin/resume/${resumeId}/feedback`, { feedback });
+      set({ resume: response.data.resume, isLoading: false });
+      // console.log(response.data.resume);
+      return response.data;
     } catch (error) {
-        set({ error: error.response?.data?.message || "Error updating resume status", isLoading: false });
-        throw error;
+      set({ error: error.response?.data?.message || "Error submitting feedback", isLoading: false });
+      throw error;
     }
-},
-
+  },
   
 }));

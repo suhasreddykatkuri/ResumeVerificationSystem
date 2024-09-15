@@ -1,0 +1,101 @@
+/* userProfile.css */
+
+/* Main container for the user profile */
+.user-profile {
+    margin: 20px;
+    padding: 20px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading style */
+.user-profile h1 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
+
+/* User info styles */
+.user-profile p {
+    font-size: 16px;
+    color: #555;
+    margin: 10px 0;
+}
+
+.user-profile strong {
+    font-weight: bold;
+}
+
+/* Status button styles */
+.user-profile .status-button {
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-top: 10px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.user-profile .approve-button {
+    background-color: #4caf50; /* Green */
+}
+
+.user-profile .reject-button {
+    background-color: #f44336; /* Red */
+}
+
+.user-profile .status-button:hover {
+    opacity: 0.9;
+}
+
+.user-profile .status-button:focus {
+    outline: none;
+}
+
+/* Status badge styles */
+.resume-status {
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-left: 10px;
+}
+
+.resume-status.approved {
+    background-color: #4caf50;
+    color: white;
+}
+
+.resume-status.rejected {
+    background-color: #f44336;
+    color: white;
+}
+
+/* Back button style */
+.back-button {
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.back-button:hover {
+    background-color: #d5d5d5;
+}
+
+.back-button:focus {
+    outline: none;
+}

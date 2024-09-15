@@ -33,15 +33,21 @@ export const getUserResumes = async (req, res) => {
 export const getResumeStatusAndFeedback = async (req, res) => {
     const { resumeId } = req.params;
     try {
+        // Fetch the resume document from the database based on resumeId and userId
         const resume = await Resume.findOne({ _id: resumeId, userId: req.userId });
+        
+        // Check if the resume was found
         if (!resume) {
             return res.status(404).json({ message: "Resume not found" });
         }
+        
+        // Return the status and feedback of the resume
         res.status(200).json({
             status: resume.status,
             feedback: resume.feedback || "No feedback provided"
         });
     } catch (error) {
+        // Handle any errors that occur during the fetch operation
         res.status(500).json({ message: "Error fetching resume status", error: error.message });
     }
 };
